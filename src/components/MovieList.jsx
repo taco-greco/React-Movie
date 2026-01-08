@@ -18,7 +18,7 @@ const MovieList = ({ movies }) => {
               <h2 className="card-title">{movie.title}</h2>
               <p>⭐ {movie.vote_average.toFixed(1)}</p>
               <div className="card-actions justify-end">
-                <button className="btn btn-primary btn-sm">View Details</button>
+                <button className="btn btn-primary btn-sm">Voir les détails</button>
               </div>
             </div>
           </div>
