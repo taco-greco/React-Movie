@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Link } from "react-router";
 import "./App.css";
 import Search from "./components/Search";
 import MovieList from "./components/MovieList";
 import MovieDetail from "./components/MovieDetail";
+import Wishlist from "./components/Wishlist";
+import { useWishlist } from "./components/WishlistContext";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -12,6 +14,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const { wishlist } = useWishlist();
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -19,10 +23,8 @@ const App = () => {
 
         let url;
         if (searchQuery) {
-          // Search movies
           url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchQuery}`;
         } else {
-          // Popular movies
           url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
         }
 
@@ -40,8 +42,11 @@ const App = () => {
 
   return (
     <main className="flex flex-col items-center min-h-screen w-full px-5 py-24 relative z-10">
-      <header className="text-5xl font-bold my-6 mb-12">
+      <header className="text-5xl font-bold my-6 mb-12 flex flex-col items-center gap-4">
         <h1>🎬 Film App</h1>
+        <Link to="/wishlist" className="btn btn-secondary btn-sm">
+          Wishlist ({wishlist.length})
+        </Link>
       </header>
 
       <Routes>
@@ -64,6 +69,7 @@ const App = () => {
           }
         />
         <Route path="/movie/:id" element={<MovieDetail />} />
+        <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
 
       <footer className="mt-auto py-4">

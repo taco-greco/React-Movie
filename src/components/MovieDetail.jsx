@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
+import { useWishlist } from "./WishlistContext";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -9,10 +10,11 @@ const MovieDetail = () => {
   const [actors, setActors] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+
   useEffect(() => {
     const fetchMovieAndActors = async () => {
       try {
-        // Fetch movie details
         const movieResponse = await fetch(
           `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
         );
@@ -40,6 +42,8 @@ const MovieDetail = () => {
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : "https://via.placeholder.com/500x750?text=No+Image";
 
+  const inWishlist = isInWishlist(movie.id);
+
   return (
     <div className="w-full max-w-4xl px-4">
       <Link to="/" className="btn btn-ghost mb-6">
@@ -54,10 +58,26 @@ const MovieDetail = () => {
           <p className="mb-2">⭐ {movie.vote_average.toFixed(1)}</p>
           <p className="mb-2">📅 {movie.release_date}</p>
           <p className="mb-4">{movie.overview}</p>
-          <button className="btn btn-primary">Add to Wishlist</button>
+
+          {inWishlist ? (
+            <button
+              className="btn btn-error"
+              onClick={() => removeFromWishlist(movie.id)}
+            >
+              Remove from Wishlist
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => addToWishlist(movie)}
+            >
+              Add to Wishlist
+            </button>
+          )}
         </div>
       </div>
 
+      {/* Actors Section */}
       <section className="mt-12">
         <h2 className="text-2xl font-bold mb-4">Actors</h2>
         <div className="flex flex-wrap gap-4">
@@ -67,13 +87,17 @@ const MovieDetail = () => {
               : "https://via.placeholder.com/200x300?text=No+Image";
 
             return (
-              <div key={actor.id} className="card bg-base-100 w-32 shadow-sm">
+              <div key={actor.id} className="card bg-base-100 w-32 shadow-md">
                 <figure>
-                  <img src={actorImage} alt={actor.name} />
+                  <img
+                    src={actorImage}
+                    alt={actor.name}
+                    className="h-40 object-cover"
+                  />
                 </figure>
-                <div className="card-body">
-                  <h2 className="card-title text-sm">{actor.name}</h2>
-                  <p className="text-xs">{actor.character}</p>
+                <div className="card-body p-2">
+                  <p className="font-semibold text-sm">{actor.name}</p>
+                  <p className="text-xs text-gray-500">{actor.character}</p>
                 </div>
               </div>
             );
