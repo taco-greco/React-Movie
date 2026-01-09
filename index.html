@@ -1,13 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dracula">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>movie-app</title>
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139, 92, 246, 0.25), transparent 70%), #000000;
+    background-attachment: fixed;
+  ">
+    <div id="root" style="position: relative; z-index: 1;"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
