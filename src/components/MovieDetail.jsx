@@ -8,31 +8,43 @@ const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [actors, setActors] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   useEffect(() => {
-    const fetchMovieAndActors = async () => {
+    const fetchAll = async () => {
       try {
+        setLoading(true);
+
+        // Fetch movie details
         const movieResponse = await fetch(
           `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
         );
         const movieData = await movieResponse.json();
         setMovie(movieData);
 
+        // Fetch actors
         const creditsResponse = await fetch(
           `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
         );
         const creditsData = await creditsResponse.json();
         setActors(creditsData.cast.slice(0, 10));
+
+        // Fetch similar movies
+        const similarResponse = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}`
+        );
+        const similarData = await similarResponse.json();
+        setSimilarMovies(similarData.results.slice(0, 6));
       } catch (error) {
         console.error("Error:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchMovieAndActors();
+    fetchAll();
   }, [id]);
 
   if (loading) return <span className="loading loading-bars loading-xl"></span>;
@@ -100,6 +112,42 @@ const MovieDetail = () => {
                   <p className="text-xs text-gray-500">{actor.character}</p>
                 </div>
               </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Similar Movies Section */}
+      <section className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">Similar Movies</h2>
+        <div className="flex flex-wrap gap-4">
+          {similarMovies.map((similar) => {
+            const similarImage = similar.poster_path
+              ? `https://image.tmdb.org/t/p/w200${similar.poster_path}`
+              : "https://via.placeholder.com/200x300?text=No+Image";
+
+            return (
+              <Link
+                to={`/movie/${similar.id}`}
+                key={similar.id}
+                className="card bg-base-100 w-32 shadow-md hover:shadow-xl transition-shadow"
+              >
+                <figure>
+                  <img
+                    src={similarImage}
+                    alt={similar.title}
+                    className="h-40 object-cover"
+                  />
+                </figure>
+                <div className="card-body p-2">
+                  <p className="font-semibold text-sm line-clamp-2">
+                    {similar.title}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    ⭐ {similar.vote_average.toFixed(1)}
+                  </p>
+                </div>
+              </Link>
             );
           })}
         </div>

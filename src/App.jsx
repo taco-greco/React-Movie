@@ -86,7 +86,11 @@ const App = () => {
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat.id}
-                    className={`btn btn-sm ${category === cat.id && !searchQuery ? "btn-primary" : "btn-ghost"}`}
+                    className={`btn btn-sm ${
+                      category === cat.id && !searchQuery
+                        ? "btn-primary"
+                        : "btn-ghost"
+                    }`}
                     onClick={() => handleCategoryChange(cat.id)}
                   >
                     {cat.name}
@@ -112,9 +116,29 @@ const App = () => {
                 >
                   «
                 </button>
-                <button className="join-item btn">
-                  Page {page} / {totalPages}
-                </button>
+                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (page <= 3) {
+                    pageNum = i + 1;
+                  } else if (page >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = page - 2 + i;
+                  }
+                  return (
+                    <button
+                      key={pageNum}
+                      className={`join-item btn ${
+                        page === pageNum ? "btn-active" : ""
+                      }`}
+                      onClick={() => setPage(pageNum)}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
                 <button
                   className="join-item btn"
                   disabled={page === totalPages}
