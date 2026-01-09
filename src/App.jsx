@@ -155,7 +155,7 @@ const App = () => {
       </Routes>
 
       <footer className="mt-auto py-4">
-        <p>Made with React + TMDB API</p>
+        <p>Made by TacoGreco with React + TMDB API</p>
       </footer>
     </main>
   );

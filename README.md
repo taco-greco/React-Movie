@@ -78,4 +78,4 @@ src/
 
 ## Author
 
-Made with ❤️ using React + TMDB API
+Made with ❤️ by TacoGreco using React + TMDB API
