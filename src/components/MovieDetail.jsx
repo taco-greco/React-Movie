@@ -6,23 +6,31 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [actors, setActors] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMovie = async () => {
+    const fetchMovieAndActors = async () => {
       try {
-        const response = await fetch(
+        // Fetch movie details
+        const movieResponse = await fetch(
           `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
         );
-        const data = await response.json();
-        setMovie(data);
+        const movieData = await movieResponse.json();
+        setMovie(movieData);
+
+        const creditsResponse = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
+        );
+        const creditsData = await creditsResponse.json();
+        setActors(creditsData.cast.slice(0, 10));
       } catch (error) {
         console.error("Error:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchMovie();
+    fetchMovieAndActors();
   }, [id]);
 
   if (loading) return <span className="loading loading-bars loading-xl"></span>;
@@ -34,7 +42,9 @@ const MovieDetail = () => {
 
   return (
     <div className="w-full max-w-4xl px-4">
-      <Link to="/" className="btn btn-ghost mb-6">← Back</Link>
+      <Link to="/" className="btn btn-ghost mb-6">
+        ← Back
+      </Link>
 
       <div className="flex flex-col md:flex-row gap-8">
         <img src={imageUrl} alt={movie.title} className="rounded-lg w-64" />
@@ -47,6 +57,29 @@ const MovieDetail = () => {
           <button className="btn btn-primary">Add to Wishlist</button>
         </div>
       </div>
+
+      <section className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">Actors</h2>
+        <div className="flex flex-wrap gap-4">
+          {actors.map((actor) => {
+            const actorImage = actor.profile_path
+              ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
+              : "https://via.placeholder.com/200x300?text=No+Image";
+
+            return (
+              <div key={actor.id} className="card bg-base-100 w-32 shadow-sm">
+                <figure>
+                  <img src={actorImage} alt={actor.name} />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title text-sm">{actor.name}</h2>
+                  <p className="text-xs">{actor.character}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 };
