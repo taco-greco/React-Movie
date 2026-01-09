@@ -1,16 +1,92 @@
-# React + Vite
+# 🎬 Film App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React movie application that allows users to browse popular movies, search for films, view details, and manage a personal wishlist.
 
-Currently, two official plugins are available:
+![App Screenshot](public/screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- 🎥 Browse movies by category (Popular, Top Rated, Now Playing, Upcoming)
+- 🔍 Search for any movie
+- 📄 View detailed movie information with cast
+- 🎭 See similar movie recommendations
+- ❤️ Add/remove movies to wishlist
+- 💾 Wishlist saved in localStorage (persists after refresh)
+- 📱 Responsive design with DaisyUI
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies
 
-## Expanding the ESLint configuration
+- React
+- React Router
+- Tailwind CSS
+- DaisyUI
+- TMDB API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/taco-greco/React-Movie.git
+cd movie-app
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Create environment file
+
+Create a `.env` file in the root folder (same level as `package.json`):
+
+```
+VITE_TMDB_API_KEY=your_api_key_here
+```
+
+### 4. Get your TMDB API Key
+
+1. Go to [themoviedb.org](https://www.themoviedb.org/)
+2. Create a free account
+3. Go to **Settings** → **API**
+4. Copy your **API Key (v3 auth)** (not the Access Token!)
+5. Paste it in your `.env` file
+
+### 5. Run the app
+
+```bash
+npm run dev
+```
+
+The app will open at `http://localhost:5173`
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── MovieDetail.jsx     # Movie details page with actors & similar movies
+│   ├── MovieList.jsx       # Grid of movie cards
+│   ├── Search.jsx          # Search input component
+│   ├── Wishlist.jsx        # Wishlist page
+│   └── WishlistContext.jsx # Global state for wishlist
+├── App.jsx                 # Main app with routes
+├── main.jsx                # Entry point
+└── App.css                 # Custom styles
+```
+
+## Screenshots
+
+### Home Page
+Browse popular movies and switch between categories.
+
+### Movie Details
+View movie information, cast, and similar movies.
+
+### Wishlist
+Manage your saved movies.
+
+## Author
+
+Made with ❤️ using React + TMDB API
