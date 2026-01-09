@@ -99,17 +99,13 @@ const MovieDetail = () => {
               : "https://via.placeholder.com/200x300?text=No+Image";
 
             return (
-              <div key={actor.id} className="card bg-base-100 w-32 shadow-md">
+              <div key={actor.id} className="card bg-base-100 w-32 shadow-sm">
                 <figure>
-                  <img
-                    src={actorImage}
-                    alt={actor.name}
-                    className="h-40 object-cover"
-                  />
+                  <img src={actorImage} alt={actor.name} />
                 </figure>
-                <div className="card-body p-2">
-                  <p className="font-semibold text-sm">{actor.name}</p>
-                  <p className="text-xs text-gray-500">{actor.character}</p>
+                <div className="card-body">
+                  <h2 className="card-title text-sm">{actor.name}</h2>
+                  <p className="text-xs">{actor.character}</p>
                 </div>
               </div>
             );
@@ -130,22 +126,14 @@ const MovieDetail = () => {
               <Link
                 to={`/movie/${similar.id}`}
                 key={similar.id}
-                className="card bg-base-100 w-32 shadow-md hover:shadow-xl transition-shadow"
+                className="card bg-base-100 w-32 shadow-sm hover:shadow-xl transition-shadow"
               >
                 <figure>
-                  <img
-                    src={similarImage}
-                    alt={similar.title}
-                    className="h-40 object-cover"
-                  />
+                  <img src={similarImage} alt={similar.title} />
                 </figure>
-                <div className="card-body p-2">
-                  <p className="font-semibold text-sm line-clamp-2">
-                    {similar.title}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    ⭐ {similar.vote_average.toFixed(1)}
-                  </p>
+                <div className="card-body">
+                  <h2 className="card-title text-sm">{similar.title}</h2>
+                  <p className="text-xs">⭐ {similar.vote_average.toFixed(1)}</p>
                 </div>
               </Link>
             );
