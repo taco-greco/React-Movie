@@ -2,7 +2,7 @@
 
 A React movie application that allows users to browse popular movies, search for films, view details, and manage a personal wishlist.
 
-![App Screenshot](public/screenshot.png)
+![App Screenshot](public/Accueil.png)
 
 ## Features
 
@@ -75,17 +75,6 @@ src/
 ├── main.jsx                # Entry point
 └── App.css                 # Custom styles
 ```
-
-## Screenshots
-
-### Home Page
-Browse popular movies and switch between categories.
-
-### Movie Details
-View movie information, cast, and similar movies.
-
-### Wishlist
-Manage your saved movies.
 
 ## Author
 
