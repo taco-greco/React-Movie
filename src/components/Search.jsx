@@ -1,4 +1,4 @@
-const Search = () => {
+const Search = ({ searchQuery, setSearchQuery }) => {
   return (
     <div>
       <label className="input text-2xl">
@@ -18,7 +18,12 @@ const Search = () => {
             <path d="m21 21-4.3-4.3"></path>
           </g>
         </svg>
-        <input type="text" required placeholder="Search" />
+        <input
+          type="text"
+          placeholder="Search movies..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </label>
     </div>
   );
